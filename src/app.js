@@ -1,3 +1,4 @@
+
 // Import the Express framework
 const express = require("express");
 
@@ -9,6 +10,9 @@ const productRoutes = require("./routes/productRoutes");
 
 // Import notification routes
 const notificationRoutes = require("./routes/notificationRoutes");
+
+// Import group routes
+const groupRoutes = require("./routes/groupRoutes");
 
 // Create an Express application
 const app = express();
@@ -25,6 +29,9 @@ app.use("/api/products", productRoutes);
 
 // Register the notification routes
 app.use("/api/notifications", notificationRoutes);
+
+// Register the group routes
+app.use("/api/groups", groupRoutes);
 
 // BASIC TEST ROUTE
 // Responds when someone visits the root URL of the server
