@@ -1,7 +1,10 @@
+
 const {
   createNotification,
   getUserNotifications,
+  getUnreadNotificationCount,
   markNotificationAsRead,
+  markAllNotificationsAsRead,
 } = require("../services/notificationService");
 
 // CREATE A NOTIFICATION
@@ -38,6 +41,23 @@ const getAll = async (req, res) => {
   }
 };
 
+// GET UNREAD NOTIFICATIONS COUNT
+const getUnreadCount = async (req, res) => {
+  try {
+    const count = await getUnreadNotificationCount(req.params.userId);
+
+    res.status(200).json({
+      message: "Unread notifications count retrieved successfully",
+      count,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to retrieve unread notifications count",
+      error: error.message,
+    });
+  }
+};
+
 // MARK A NOTIFICATION AS READ
 const markAsRead = async (req, res) => {
   try {
@@ -61,8 +81,27 @@ const markAsRead = async (req, res) => {
   }
 };
 
+// MARK ALL NOTIFICATIONS AS READ
+const markAllAsRead = async (req, res) => {
+  try {
+    const modifiedCount = await markAllNotificationsAsRead(req.params.userId);
+
+    res.status(200).json({
+      message: "All notifications marked as read successfully",
+      modifiedCount,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Failed to mark all notifications as read",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   create,
   getAll,
+  getUnreadCount,
   markAsRead,
+  markAllAsRead,
 };

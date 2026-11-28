@@ -1,3 +1,4 @@
+
 const Notification = require("../models/Notification");
 
 // CREATE A NOTIFICATION
@@ -16,6 +17,16 @@ const getUserNotifications = async (userId) => {
   return notifications;
 };
 
+// GET UNREAD NOTIFICATIONS COUNT FOR A USER
+const getUnreadNotificationCount = async (userId) => {
+  const count = await Notification.countDocuments({
+    recipient: userId,
+    isRead: false,
+  });
+
+  return count;
+};
+
 // MARK A NOTIFICATION AS READ
 const markNotificationAsRead = async (notificationId) => {
   const notification = await Notification.findByIdAndUpdate(
@@ -27,8 +38,25 @@ const markNotificationAsRead = async (notificationId) => {
   return notification;
 };
 
+// MARK ALL NOTIFICATIONS AS READ
+const markAllNotificationsAsRead = async (userId) => {
+  const result = await Notification.updateMany(
+    {
+      recipient: userId,
+      isRead: false,
+    },
+    {
+      isRead: true,
+    }
+  );
+
+  return result.modifiedCount;
+};
+
 module.exports = {
   createNotification,
   getUserNotifications,
+  getUnreadNotificationCount,
   markNotificationAsRead,
+  markAllNotificationsAsRead,
 };

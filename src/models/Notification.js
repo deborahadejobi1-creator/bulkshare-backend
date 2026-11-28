@@ -22,6 +22,8 @@ const notificationSchema = new mongoose.Schema(
         "collection",
         "delivery",
         "group_update",
+        "group_failed",
+        "refund_update",
       ],
       required: true,
     },
